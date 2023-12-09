@@ -16,6 +16,10 @@ const config = {
     URI: process.env.DATABASE_URI!,
     PASSWORD: process.env.DATABASE_PASSWORD!,
   },
+  AUTH: {
+    PEPPER: process.env.PEPPER!,
+    SALT_ROUNDS: process.env.SALT_ROUNDS!,
+  },
 };
 
 export default config;
