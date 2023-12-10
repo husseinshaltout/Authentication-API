@@ -1,7 +1,14 @@
-import { Schema, Document, model } from 'mongoose';
+import { Model, Schema, Document, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import config from '@config';
+
+interface UserSession {
+  sessionID: string;
+  refTokenVersion: number;
+  sessionCreation?: Date;
+  lastRefresh?: Date;
+}
 
 interface UserAttributes {
   _id: string;
@@ -11,6 +18,8 @@ interface UserAttributes {
   password: string;
   passwordConfirm?: string;
   creationDate: Date;
+
+  userSessions: UserSession[];
 }
 
 interface UserDocument extends UserAttributes, Document {
@@ -30,7 +39,11 @@ function confirmPassword(
   return password === this.passwordConfirm;
 }
 
-const userSchema = new Schema<UserDocument>({
+interface UserModel extends Model<UserDocument> {
+  isEmailExists: (email: string) => Promise<boolean>;
+}
+
+const userSchema = new Schema<UserDocument, UserModel>({
   firstName: {
     type: String,
     minlength: [2, 'Name Too Short'],
@@ -63,6 +76,15 @@ const userSchema = new Schema<UserDocument>({
     type: Date,
     default: Date.now,
   },
+
+  userSessions: [
+    {
+      sessionID: String,
+      refTokenVersion: Number,
+      sessionCreation: { type: Date, default: Date.now },
+      lastRefresh: Date,
+    },
+  ],
 });
 
 userSchema.pre('save', hashPassword);
@@ -91,6 +113,6 @@ userSchema.statics.isEmailExists = async function (email: string) {
   return !!user;
 };
 
-const User = model<UserDocument>('User', userSchema);
+const User = model<UserDocument, UserModel>('User', userSchema);
 
-export { User, UserDocument, UserAttributes };
+export { User, UserDocument, UserAttributes, UserSession };

@@ -1,5 +1,4 @@
 import HttpStatus from '@common/enums/httpStatus';
-import { getSystemErrorMap } from 'util';
 
 export default abstract class AppError extends Error {
   abstract statusCode: HttpStatus;

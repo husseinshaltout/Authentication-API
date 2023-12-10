@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 // Load Configuration File
 if (process.env.NODE_ENV === 'test') {
-  dotenv.config({ path: 'config/test.env' });
+  dotenv.config({ path: 'config/.env.test.local' });
 } else {
   dotenv.config({ path: 'config/.env' });
 }
@@ -17,6 +17,16 @@ const config = {
     PASSWORD: process.env.DATABASE_PASSWORD!,
   },
   AUTH: {
+    ACCESS_TOKEN: {
+      EXPIRY: process.env.ACCESS_JWT_EXPIRY_DURATION_MINUTES!,
+      SECRET: process.env.ACCESS_JWT_SECRET!,
+    },
+    REFRESH_TOKEN: {
+      EXPIRY: process.env.REFRESH_JWT_EXPIRY_DURATION_MINUTES!,
+      SECRET: process.env.REFRESH_JWT_SECRET!,
+      COOKIE_PATH: process.env.REFRESH_COOKIE_PATH!,
+      COOKIE_NAME: process.env.REFRESH_COOKIE_NAME!,
+    },
     PEPPER: process.env.PEPPER!,
     SALT_ROUNDS: process.env.SALT_ROUNDS!,
   },

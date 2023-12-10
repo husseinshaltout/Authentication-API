@@ -61,6 +61,7 @@ export default class Server {
       .enableXssProtection()
       .useApiRouters()
       .redirectToNotFound()
+      .enableCelebrateErrors()
       .enableErrorController();
   }
 
@@ -79,6 +80,7 @@ export default class Server {
       .enableXssProtection()
       .useApiRouters()
       .redirectToNotFound()
+      .enableCelebrateErrors()
       .enableErrorController();
   }
 
