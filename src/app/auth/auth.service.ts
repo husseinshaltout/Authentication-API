@@ -32,22 +32,13 @@ class AuthService {
     if (userFields.email && (await User.isEmailExists(userFields.email)))
       throw new ConflictError('Email already taken');
 
-    let newUser = await User.create(userFields);
+    let user = await User.create(userFields);
 
-    const newSession: UserSession = {
-      sessionID: await generateNanoId(),
-      refTokenVersion: 0,
-      lastRefresh: new Date(),
-    };
-
-    return {
-      user: newUser,
-      accessToken: this.generateAccessToken(newUser, newSession),
-    };
+    return user;
   }
 
   async login(email: string, password: string) {
-    const user = await User.findOne({ email: email }).select('+password');
+    let user = await User.findOne({ email: email }).select('+password');
 
     if (!user || !(await user.isCorrectPassword(password, user.password)))
       throw new Error('Wrong Email or Password! Please Try Again');
@@ -184,7 +175,6 @@ class AuthService {
       throw new UnauthorizedError(
         'You are not Logged In! Please Log In First!'
       );
-      return;
     }
 
     user.userSessions = user.userSessions.filter(
