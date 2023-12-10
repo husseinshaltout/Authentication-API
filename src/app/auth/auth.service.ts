@@ -5,7 +5,6 @@ import config from '@config';
 
 import { User, UserDocument, UserAttributes } from '@models/user.model';
 
-import BadRequestError from '@common/errors/badRequestError';
 import ConflictError from '@common/errors/conflictError';
 import { accessTokenPayload } from './types/tokenPayload';
 
@@ -55,6 +54,13 @@ class AuthService {
       token,
       expiry: expiryDate.toDate(),
     };
+  }
+
+  protect(accessToken: string) {
+    return jwt.verify(
+      accessToken,
+      config.AUTH.ACCESS_TOKEN.SECRET
+    ) as accessTokenPayload;
   }
 }
 
