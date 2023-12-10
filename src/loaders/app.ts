@@ -9,6 +9,7 @@ import http from 'http';
 import rateLimit from 'express-rate-limit';
 import xss from 'xss-clean';
 import sanitize from 'mongo-sanitize';
+import { errors } from 'celebrate';
 
 import logger from '@loaders/logger';
 import CrossOriginError from '@common/errors/crossOriginError';
@@ -94,7 +95,10 @@ export default class Application {
     this.app.use(xss());
     return this;
   }
-
+  enableCelebrateErrors() {
+    this.app.use(errors());
+    return this;
+  }
   enableErrorController() {
     this.app.use(exceptionsController);
     return this;
