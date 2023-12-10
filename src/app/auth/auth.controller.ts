@@ -39,8 +39,7 @@ class AuthController {
     const newUser = await authService.signUp(req.body);
 
     res.status(HttpStatus.CREATED).json({
-      msg: `Created User ${newUser.user.firstName} ${newUser.user.lastName} Successfully`,
-      accessToken: newUser.accessToken,
+      msg: `Created User ${newUser.firstName} ${newUser.lastName} Successfully`,
     });
   }
 
@@ -64,6 +63,8 @@ class AuthController {
   }
 
   private async refreshTokens(req: Request, res: Response) {
+    console.log(req.cookies);
+
     const token = req.cookies[config.AUTH.REFRESH_TOKEN.COOKIE_NAME];
 
     if (!token) throw new UnauthorizedError();
