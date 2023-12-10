@@ -24,7 +24,7 @@ class AuthController {
   private initializeRoutes() {
     this.router.post('/signup', validateSignUp, catchAsync(this.signUp));
     this.router.post(
-      '/login',
+      '/signin',
       validateLogin,
       catchAsync(this.login.bind(this))
     );
