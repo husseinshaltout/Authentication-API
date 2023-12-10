@@ -65,7 +65,6 @@ class AuthController {
 
   private async refreshTokens(req: Request, res: Response) {
     const token = req.cookies[config.AUTH.REFRESH_TOKEN.COOKIE_NAME];
-    console.log(req.cookies);
 
     if (!token) throw new UnauthorizedError();
 
