@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 // Load Configuration File
 if (process.env.NODE_ENV === 'test') {
-  dotenv.config({ path: 'config/test.env' });
+  dotenv.config({ path: 'config/.env.test.local' });
 } else {
   dotenv.config({ path: 'config/.env' });
 }
