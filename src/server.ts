@@ -14,3 +14,5 @@ const DBLoader = new MongoDbLoader(config.DATABASE);
 // Create Server and Start Listening
 const server = new Server(app, DBLoader);
 server.start();
+
+export default server;
