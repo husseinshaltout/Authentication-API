@@ -38,7 +38,8 @@ export default class Server {
   async ConnectToDB() {
     return this.DBLoader.connect()
       .then(() => {
-        logger.info('DB connection successful!');
+        if (config.NODE_ENV !== 'test')
+          logger.info('DB connection successful!');
       })
       .catch((err) => {
         logger.error('Error connecting to Database!');
@@ -66,7 +67,11 @@ export default class Server {
   }
 
   private initTestServer() {
-    //TODO: Prep for Testing
+    this.app
+      .enableBodyParser()
+      .useApiRouters()
+      .enableCelebrateErrors()
+      .enableErrorController();
   }
 
   private initProdServer() {
@@ -101,6 +106,12 @@ export default class Server {
     process.on('SIGINT', () => {
       logger.warn('Server Stopped\nSHUTTING DOWN...');
       this.stopServer(0);
+    });
+  }
+
+  async stop() {
+    this.app.server.close(async () => {
+      await Promise.all([this.DBLoader.closeConnection()]);
     });
   }
 

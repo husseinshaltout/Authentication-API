@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "baseUrl": "src",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "paths": {
       "@app/*": ["app/*"],
       "@config": ["config/index"],

@@ -1,0 +1,17 @@
+[
+  {
+    "firstName": "foo",
+    "lastName": "bar",
+    "email": "test@example.com",
+    "password": "password",
+    "passwordConfirm": "password"
+  },
+  {
+    "_id": "65762443f268cff8708190f1",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "data.emanil@example.com",
+    "password": "data.password",
+    "passwordConfirm": "data.password"
+  }
+]

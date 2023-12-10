@@ -41,7 +41,7 @@ class AuthService {
     let user = await User.findOne({ email: email }).select('+password');
 
     if (!user || !(await user.isCorrectPassword(password, user.password)))
-      throw new Error('Wrong Email or Password! Please Try Again');
+      throw new UnauthorizedError('Wrong Email or Password! Please Try Again');
 
     const newSession: UserSession = {
       sessionID: await generateNanoId(),
@@ -52,7 +52,7 @@ class AuthService {
     user.userSessions = [...user.userSessions, newSession];
 
     user.save().catch((error) => {
-      logger.log(error);
+      logger.error(error);
     });
 
     return {
