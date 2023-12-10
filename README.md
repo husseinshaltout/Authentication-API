@@ -4,7 +4,7 @@ A simple Authentication API with Express Js with Mongodb Database.
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file (.env_template file could be renamed and used)
+To run this project, you will need to add the following environment variables to your .env file ([.env_template](./config/.env_template)) file could be renamed and used)
 
 `NODE_ENV` \
 `CORS_WHITELIST` \
@@ -20,7 +20,7 @@ To run this project, you will need to add the following environment variables to
 `PEPPER` \
 `SALT_ROUNDS` \
 `DATABASE_URI` \
-`DATABASE_PASSWORD` \
+`DATABASE_PASSWORD`
 
 ## Run Locally
 
@@ -77,7 +77,7 @@ GET
 http://localhost:3000/me
 ```
 
-- Add Bearer Authorization to header for endpoint that requires token (can be identified from [REQUIREMENTS.md](./docs/REQUIREMENTS.md))
+- Add Bearer Authorization to header for endpoint that requires token (can be identified from [API.md](./docs/API.md))
 
   `Authorization   Bearer <token>`
 
