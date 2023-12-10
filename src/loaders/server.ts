@@ -38,7 +38,8 @@ export default class Server {
   async ConnectToDB() {
     return this.DBLoader.connect()
       .then(() => {
-        logger.info('DB connection successful!');
+        if (config.NODE_ENV !== 'test')
+          logger.info('DB connection successful!');
       })
       .catch((err) => {
         logger.error('Error connecting to Database!');
