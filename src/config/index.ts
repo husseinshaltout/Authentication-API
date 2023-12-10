@@ -21,6 +21,12 @@ const config = {
       EXPIRY: process.env.ACCESS_JWT_EXPIRY_DURATION_MINUTES!,
       SECRET: process.env.ACCESS_JWT_SECRET!,
     },
+    REFRESH_TOKEN: {
+      EXPIRY: process.env.REFRESH_JWT_EXPIRY_DURATION_MINUTES!,
+      SECRET: process.env.REFRESH_JWT_SECRET!,
+      COOKIE_PATH: process.env.REFRESH_COOKIE_PATH!,
+      COOKIE_NAME: process.env.REFRESH_COOKIE_NAME!,
+    },
     PEPPER: process.env.PEPPER!,
     SALT_ROUNDS: process.env.SALT_ROUNDS!,
   },
