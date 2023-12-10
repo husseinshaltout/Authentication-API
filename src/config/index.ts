@@ -17,6 +17,10 @@ const config = {
     PASSWORD: process.env.DATABASE_PASSWORD!,
   },
   AUTH: {
+    ACCESS_TOKEN: {
+      EXPIRY: process.env.ACCESS_JWT_EXPIRY_DURATION_MINUTES!,
+      SECRET: process.env.ACCESS_JWT_SECRET!,
+    },
     PEPPER: process.env.PEPPER!,
     SALT_ROUNDS: process.env.SALT_ROUNDS!,
   },
