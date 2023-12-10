@@ -3,6 +3,13 @@ import bcrypt from 'bcrypt';
 import validator from 'validator';
 import config from '@config';
 
+interface UserSession {
+  sessionID: string;
+  refTokenVersion: number;
+  sessionCreation?: Date;
+  lastRefresh?: Date;
+}
+
 interface UserAttributes {
   _id: string;
   firstName: string;
@@ -11,6 +18,8 @@ interface UserAttributes {
   password: string;
   passwordConfirm?: string;
   creationDate: Date;
+
+  userSessions: UserSession[];
 }
 
 interface UserDocument extends UserAttributes, Document {
@@ -67,6 +76,15 @@ const userSchema = new Schema<UserDocument, UserModel>({
     type: Date,
     default: Date.now,
   },
+
+  userSessions: [
+    {
+      sessionID: String,
+      refTokenVersion: Number,
+      sessionCreation: { type: Date, default: Date.now },
+      lastRefresh: Date,
+    },
+  ],
 });
 
 userSchema.pre('save', hashPassword);
@@ -97,4 +115,4 @@ userSchema.statics.isEmailExists = async function (email: string) {
 
 const User = model<UserDocument, UserModel>('User', userSchema);
 
-export { User, UserDocument, UserAttributes };
+export { User, UserDocument, UserAttributes, UserSession };
