@@ -5,7 +5,7 @@ import HttpStatus from '@common/enums/httpStatus';
 import catchAsync from '@common/middlewares/catchAsync';
 
 import userService from '@app/user/user.service';
-import UnauthorizedError from '@common/errors/unauthorizedError';
+import protect from '@app/auth/middleware/protect';
 
 class UserController {
   public router = Router();
@@ -15,16 +15,12 @@ class UserController {
   }
 
   private initializeRoutes() {
-    this.router.get('/me', catchAsync(this.getMe));
+    this.router.get('/me', protect, catchAsync(this.getMe));
   }
 
   private async getMe(req: Request, res: Response) {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader)
-      throw new UnauthorizedError('Unauthorized: No token provided');
-
-    const user = await userService.getMe(authHeader);
+    const userId = req.body.userId;
+    const user = await userService.getUserById(userId);
 
     res.status(HttpStatus.OK).json({
       userID: user._id,
