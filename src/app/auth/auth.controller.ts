@@ -2,7 +2,13 @@ import { Request, Response, Router } from 'express';
 
 import HttpStatus from '@common/enums/httpStatus';
 
+import {
+  validateSignUp,
+  validateLogin,
+} from '@common/middlewares/validateBody.middleware';
 import catchAsync from '@common/middlewares/catchAsync';
+
+import authService from '@app/auth/auth.service';
 
 class AuthController {
   public router = Router();
@@ -12,12 +18,29 @@ class AuthController {
   }
 
   private initializeRoutes() {
-    this.router.get('/', catchAsync(this.index));
+    this.router.post('/signup', validateSignUp, catchAsync(this.signUp));
+    this.router.post('/login', validateLogin, catchAsync(this.login));
   }
 
-  private async index(req: Request, res: Response) {
+  private async signUp(req: Request, res: Response) {
+    let newUser = await authService.signUp(req.body);
+    res.status(HttpStatus.CREATED).json({
+      msg: `Created User ${newUser.user.firstName} ${newUser.user.lastName} Successfully`,
+      accessToken: newUser.accessToken,
+    });
+  }
+
+  private async login(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    const { accessToken, user } = await authService.login(email, password);
+
     res.status(HttpStatus.OK).json({
-      msg: `Auth Index`,
+      userID: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: email,
+      accessToken: accessToken,
     });
   }
 }
